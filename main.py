@@ -1,12 +1,18 @@
 from pasajero import Pasajero
 from mi_lista import MiLista
 from lista_python import ListaPython
+from utils import (
+    imprimir_titulo, imprimir_exito, imprimir_error, imprimir_info, confirmar
+)
 
 lista1 = MiLista(10)
 lista2 = ListaPython()
 
 
 # ------------------------- funciones de apoyo ✅ -------------------------
+def pausa():
+    input("\nPresione Enter para continuar...")
+
 def leer_entero(mensaje):
     while True:
         try:
@@ -36,7 +42,7 @@ def cargar_datos_prueba(lista):
 
 
 def mostrar_opciones(titulo, extras=False):
-    print(f"\n========== {titulo} ==========")
+    imprimir_titulo(f" {titulo} ")
     print(" 1. Añadir           2. Listar            3. Insertar en posición")
     print(" 4. Buscar (lineal)  5. Buscar (binaria)  6. Modificar")
     print(" 7. Eliminar por posición                 8. Eliminar por número")
@@ -45,7 +51,6 @@ def mostrar_opciones(titulo, extras=False):
     if extras:
         print("14. Filtrar por destino                  15. Mayores de edad")
     print(" C. Cargar datos de prueba                0. Volver")
-
 
 # ---------------------- MENÚ 1 · MiLista ----------------------
 def menu_lista1():
@@ -56,76 +61,77 @@ def menu_lista1():
         if op == "1":                                  # ✅ ejemplo resuelto
             pasajero = leer_pasajero()                 # 1. LEER
             if lista1.añadir(pasajero):                # 2. LLAMAR
-                print("  ✓ Pasajero añadido")          # 3. MOSTRAR
+                imprimir_exito(" Pasajero añadido")          # 3. MOSTRAR
         elif op == "2":
             lista1.listar()
         elif op == "3":
             posicion = leer_entero("Ingrese en la posicion que va insertar")
             pasajero = leer_pasajero()
             if lista1.insertar(posicion, pasajero):
-                print("  ✓ Pasajero insertado")
+                imprimir_info(" Pasajero insertado")
         elif op == "4":      
             numero = leer_entero("Ingrese el numero que desea buscar: ")          # 1. LEER
             pasajero = lista1.buscar(numero)                                            # 2. LLAMAR
             if pasajero:                
-                print(f"  ✓ Pasajero encontrado {pasajero}")       # 3. MOSTRAR
+                imprimir_exito(f" Pasajero encontrado {pasajero}")       # 3. MOSTRAR
             else:
-                print("  ✗ No se encontró ningún pasajero con ese número")
+                imprimir_error(" No se encontró ningún pasajero con ese número")
         elif op == "5":
             numero = leer_entero(" Ingrese el número que desea buscar: ")
             pasajero = lista1.buscar_binaria(numero)
             if pasajero:
-                print(f"  ✓ Pasajero encontrado: {pasajero}")
+                imprimir_exito(f" Pasajero encontrado: {pasajero}")
             else:
-                print("  ✗ No se encontró ningún pasajero con ese número")
+                imprimir_error(" No se encontró ningún pasajero con ese número")
         elif op == "6":
             numero = leer_entero("  N.º de pasajero: ")
             if lista1.buscar(numero) is None:
-                print(" ✗ No se encontró ningún pasajero con ese número ")
+                imprimir_error(" No se encontró ningún pasajero con ese número ")
             else:
-                print(f"  ✓ Pasajero encontrado {lista1.buscar(numero)}")
+                imprimir_exito(f" Pasajero encontrado {lista1.buscar(numero)}")
 
-                confirmar = input("¿Desea modificar sus datos? (si/no): ").strip().lower()
-                if confirmar == "si":
+                confirmar("¿Desea modificar sus datos? (si/no): ")
+                if confirmar:
                     nuevo_destino = input("Ingrese el nuevo destino: ").strip()
                     nuevo_asiento = input("Ingrese el nuevo asiento: ").strip().upper()
                     lista1.modificar(numero, nuevo_destino, nuevo_asiento)
-                    print(" ✓ Pasajero modificado ")
+                    imprimir_exito(" Pasajero modificado ")
                 else:
-                    print(" ✗ Operacion cancelada ")   
+                    imprimir_error(" Operacion cancelada ")   
         elif op == "7":
             posicion = leer_entero("Ingrese el numero que desea eliminar: ")
             if lista1.eliminar_por_posicion(posicion):
-                print("valor eliminado")
+                imprimir_info("valor eliminado")
             pass 
         elif op == "8":
             numero = leer_entero("Ingrese el numero que desea eliminar: ")
             if lista1.eliminar_por_valor(numero):
-                print("  ✓ Pasajero eliminado por número")
+                imprimir_exito(" Pasajero eliminado por número")
             else:
-                print("  ✗ No se encontró un pasajero con ese número")
+                imprimir_error(" No se encontró un pasajero con ese número")
             
         elif op == "9":
             lista1.ordenar_asc()
-            print("  ✓ Lista ordenada de forma ascendente")
+            imprimir_exito(" Lista ordenada de forma ascendente")
         elif op == "10":
             lista1.ordenar_desc()
-            print("  ✓ Lista ordenada de forma descendente")
+            imprimir_exito(" Lista ordenada de forma descendente")
         elif op == "11":
             lista1.reversar()
-            print("  ✓ Lista invertida")
+            imprimir_exito(" Lista invertida")
         elif op == "12":
             copia = lista1.copiar()
-            print(f"  ✓ Copia creada: {copia.listar()}") 
+            imprimir_exito(f"  Copia creada: {copia.listar()}") 
         elif op == "13":
-            print(f"  ✓Cantidad de pasajeros: {lista1.longitud()}")
+           imprimir_info(f" Cantidad de pasajeros: {lista1.longitud()}")
 
         elif op == "C":
             cargar_datos_prueba(lista1)
         elif op == "0":
             break
         else:
-            print("  Opción no válida")
+            imprimir_error("  Opción no válida")
+        pausa()
 
 # ---------------------- MENÚ 2 · list de Python ----------------------
 def menu_lista2():
@@ -136,94 +142,95 @@ def menu_lista2():
         if op == "1":
             pasajero = leer_pasajero()
             if lista2.añadir(pasajero):
-                print("  ✓ Pasajero añadido")
+                imprimir_exito(" Pasajero añadido")
         elif op == "2":
             lista2.listar()
         elif op == "3":
             posicion = leer_entero("  Ingrese la posición en la que va a insertar: ")
             pasajero = leer_pasajero()
             if lista2.insertar(posicion, pasajero):
-                print("  ✓ Pasajero insertado exitosamente")
+                imprimir_exito("  Pasajero insertado exitosamente")
         elif op == "4":
             numero = leer_entero("  Ingrese el número que desea buscar: ")
             pasajero = lista2.buscar(numero)
             if pasajero:
-                print(f"  ✓ Pasajero encontrado: {pasajero}")
+                imprimir_exito(f" Pasajero encontrado: {pasajero}")
             else:
-                print("  ✗ No se encontró ningún pasajero con ese número")
+                imprimir_error(" No se encontró ningún pasajero con ese número")
         elif op == "5":
             numero = leer_entero("  Ingrese el número que desea buscar: ")
             pasajero = lista2.buscar_binaria(numero)
             if pasajero:
-                print(f"  ✓ Pasajero encontrado: {pasajero}")
+                imprimir_exito(f" Pasajero encontrado: {pasajero}")
             else:
-                print("  ✗ No se encontró ningún pasajero con ese número")
+                imprimir_error(" No se encontró ningún pasajero con ese número")
         elif op == "6":
             numero = leer_entero("  N.º de pasajero a modificar: ")
             pasajero = lista2.buscar(numero)
             if pasajero is None:
-                print("  ✗ No se encontró ningún pasajero con ese número")
+                imprimir_error(" No se encontró ningún pasajero con ese número")
             else:
-                print(f"  ✓ Pasajero encontrado: {pasajero}")
-                confirmar = input("  ¿Desea modificar sus datos? (si/no): ").strip().lower()
-                if confirmar == "si":
+                imprimir_exito(f" Pasajero encontrado: {pasajero}")
+                confirmar("  ¿Desea modificar sus datos? (si/no): ")
+                if confirmar:
                     nuevo_destino = input("  Ingrese el nuevo destino: ").strip()
                     nuevo_asiento = input("  Ingrese el nuevo asiento: ").strip().upper()
                     lista2.modificar(numero, nuevo_destino, nuevo_asiento)
-                    print("  ✓ Pasajero modificado")
+                    imprimir_exito("  Pasajero modificado")
                 else:
-                    print("  ✗ Operación cancelada")
+                    imprimir_error("  Operación cancelada")
         elif op == "7":
             posicion = leer_entero("  Ingrese la posición que desea eliminar: ")
             eliminado = lista2.eliminar_por_posicion(posicion)
             if eliminado is not None:
-                print(f"  ✓ Pasajero eliminado: {eliminado}")
+                imprimir_exito(f" Pasajero eliminado: {eliminado}")
             else:
-                print("  ✗ Posición no válida")
+                imprimir_error(" Posición no válida")
         elif op == "8":
             numero = leer_entero("  Ingrese el número de pasajero que desea eliminar: ")
             if lista2.eliminar_por_valor(numero):
-                print("  ✓ Pasajero eliminado")
+                imprimir_exito(" Pasajero eliminado")
             else:
-                print("  ✗ No se encontró ningún pasajero con ese número")
+                imprimir_error(" No se encontró ningún pasajero con ese número")
         elif op == "9":
             lista2.ordenar_asc()
-            print("  ✓ Lista ordenada de forma ascendente")
+            imprimir_exito(" Lista ordenada de forma ascendente")
         elif op == "10":
             lista2.ordenar_desc()
-            print("  ✓ Lista ordenada de forma descendente")
+            imprimir_exito(" Lista ordenada de forma descendente")
         elif op == "11":
             lista2.reversar()
-            print("  ✓ Lista invertida")
+            imprimir_exito(" Lista invertida")
         elif op == "12":
             copia = lista2.copiar()
-            print("  ✓ Copia creada exitosamente:")
+            imprimir_exito(" Copia creada exitosamente:")
             copia.listar()
         elif op == "13":
-            print(f"  ✓ Cantidad de elementos: {lista2.longitud()}")
+            imprimir_exito(f" Cantidad de elementos: {lista2.longitud()}")
         elif op == "14":
             destino = input("  Ingrese el destino a filtrar: ").strip()
             filtrados = lista2.filtrar_por_destino(destino)
             if filtrados:
-                print(f"  ✓ Pasajeros con destino '{destino}':")
+                imprimir_exito(f" Pasajeros con destino '{destino}':")
                 for p in filtrados:
                     print(f"    {p}")
             else:
-                print(f" no hay pasajeros hacia {destino}")
+                imprimir_info(f" no hay pasajeros hacia {destino}")
         elif op == "15":
             mayores = lista2.mayores_de_edad()
             if mayores:
-                print("  ✓ Pasajeros mayores de edad (>= 18):")
+                imprimir_exito(" Pasajeros mayores de edad (>= 18):")
                 for p in mayores:
                     print(f" {p}")
             else:
-                print(" No hay pasajeros mayores de edad")
+                imprimir_info(" No hay pasajeros mayores de edad")
         elif op == "C":
             cargar_datos_prueba(lista2)
         elif op == "0":
             break
         else:
-            print("  Opción no válida")
+            imprimir_error("  Opción no válida")
+    pausa()
 
 # ---------------------- MENÚ PRINCIPAL ✅ ----------------------
 def main():
