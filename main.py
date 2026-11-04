@@ -90,8 +90,7 @@ def menu_lista1():
             else:
                 imprimir_exito(f" Pasajero encontrado {lista1.buscar(numero)}")
 
-                confirmar("¿Desea modificar sus datos? (si/no): ")
-                if confirmar:
+                if confirmar("¿Desea modificar sus datos? "):
                     nuevo_destino = input("Ingrese el nuevo destino: ").strip()
                     nuevo_asiento = input("Ingrese el nuevo asiento: ").strip().upper()
                     lista1.modificar(numero, nuevo_destino, nuevo_asiento)
@@ -171,8 +170,7 @@ def menu_lista2():
                 imprimir_error(" No se encontró ningún pasajero con ese número")
             else:
                 imprimir_exito(f" Pasajero encontrado: {pasajero}")
-                confirmar("  ¿Desea modificar sus datos? (si/no): ")
-                if confirmar:
+                if confirmar("  ¿Desea modificar sus datos?"):
                     nuevo_destino = input("  Ingrese el nuevo destino: ").strip()
                     nuevo_asiento = input("  Ingrese el nuevo asiento: ").strip().upper()
                     lista2.modificar(numero, nuevo_destino, nuevo_asiento)
@@ -230,7 +228,7 @@ def menu_lista2():
             break
         else:
             imprimir_error("  Opción no válida")
-    pausa()
+        pausa()
 
 # ---------------------- MENÚ PRINCIPAL ✅ ----------------------
 def main():
